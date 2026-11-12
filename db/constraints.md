@@ -269,3 +269,9 @@ amount и coefficient_used — от (year, month, courier_id). Поэтому re
 
 - **Месяц заказа** определяется по `order_timestamp`, учитываются только доставленные заказы (BR-10.5).
 - **Повторный вызов `courier_salary`** в том же месяце обновляет запись `courier_pay`, дубль не создаётся (BR-10.3). В `courier.coefficient` к этому моменту уже лежит коэффициент следующего месяца, поэтому сумма пересчитывается с `courier_pay.coefficient_used` — коэффициентом, действовавшим в этом месяце.
+
+---
+
+## Отчёт `how_much_money` (FOOD-108)
+
+- **Месяц заказа** определяется по `order_timestamp`, как в `courier_salary`.
