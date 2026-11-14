@@ -1,6 +1,6 @@
 set search_path to ziganshin_food, exts;
 
---FOOD-106: статистика по ресторанам, только доставленные заказы, одна строка на ресторан
+--статистика по ресторанам по доставленным заказам
 create or replace function get_statistic() returns table (restaurant_name varchar, best_product_name varchar, total_amount numeric, avg_amount numeric, best_user varchar) as $$
 begin
 	return query

@@ -1,6 +1,6 @@
 set search_path to ziganshin_food, exts;
 
---FOOD-105: пересчёт агрегированного рейтинга блюда и ресторана (BR-9.6, BR-9.7)
+--пересчёт рейтинга блюда и ресторана по отзывам
 create or replace function rating_change() returns trigger as $$
 begin
 	--старая сущность: при изменении и удалении отзыва

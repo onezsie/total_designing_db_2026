@@ -1,4 +1,4 @@
---FOOD-109: пользователь inspector и его права
+--пользователь inspector для проверки
 
 create role inspector with login password 'NetoSQL2025';
 

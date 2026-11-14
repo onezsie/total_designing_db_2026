@@ -1,6 +1,6 @@
 set search_path to ziganshin_food, exts;
 
---FOOD-108: отчёт по месяцам от первого до последнего месяца с доставленными заказами (BR-11.9)
+--доходы и выплаты курьерам по месяцам
 create view how_much_money as
 	with recursive orders_by_month as (
 		select date_trunc('month', order_timestamp) as month, sum(order_amount) as sum_no_commission, sum(total_amount) as sum_with_commission

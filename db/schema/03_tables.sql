@@ -84,7 +84,7 @@ create table "order" (
 	description text not null
 );
 
---адрес доставки должен быть одним из адресов клиента (BR-7.4)
+--адрес доставки должен быть одним из адресов клиента
 alter table "order" add constraint order_client_address_fkey foreign key (client_id, address_id) references client_address(client_id, address_id);
 
 create table payment (
@@ -97,7 +97,7 @@ create table payment (
 	status payment_status not null
 );
 
---не больше одной успешной попытки оплаты на заказ (BR-8.1)
+--у заказа не больше одной успешной оплаты
 create unique index payment_order_id_idx on payment (order_id) where status = 'успех';
 
 create table order_structure (

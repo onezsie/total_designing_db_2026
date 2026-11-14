@@ -1,6 +1,6 @@
 set search_path to ziganshin_food, exts;
 
---FOOD-103: удаление тестовых данных
+--удаление тестовых данных
 create or replace procedure erase_test_data() as $$
 begin
 	delete from review;

@@ -1,6 +1,6 @@
 set search_path to ziganshin_food, exts;
 
---FOOD-107: зарплата курьеров за текущий месяц (BR-10.2)
+--зарплата курьеров за текущий месяц
 create or replace procedure courier_salary() as $$
 declare
 	i record;

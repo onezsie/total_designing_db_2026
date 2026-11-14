@@ -1,6 +1,6 @@
 set search_path to ziganshin_food, exts;
 
---BR-7.3: все блюда заказа из ресторана, указанного в заказе
+--все блюда в заказе должны быть из ресторана заказа
 create or replace function order_structure_restaurant_check() returns trigger as $$
 declare
 	v_order_restaurant uuid;
@@ -13,7 +13,7 @@ begin
 	from product
 	where product_id = new.product_id;
 	if v_order_restaurant != v_product_restaurant then
-		raise exception 'блюдо % не из ресторана заказа % (BR-7.3)', new.product_id, new.order_id;
+		raise exception 'блюдо % не из ресторана заказа %', new.product_id, new.order_id;
 	end if;
 	return new;
 end;

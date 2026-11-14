@@ -1,6 +1,6 @@
 set search_path to ziganshin_food, exts;
 
---FOOD-102: генератор тестовых данных, распределение строк по BR-11.7
+--генератор тестовых данных
 create or replace procedure insert_test_data(value int) as $$
 declare
 	m record;
@@ -59,7 +59,7 @@ begin
 				when v_courier_status = 'уволен' then v_hire_date + floor(random() * (current_date - v_hire_date + 1))::int
 			end);
 	end loop;
-	--BR-6.6: хотя бы один активный курьер
+	--хотя бы один курьер должен работать
 	if not exists (select 1 from courier where status != 'уволен') then
 		update courier
 		set status = 'свободен', dismissal_date = null
