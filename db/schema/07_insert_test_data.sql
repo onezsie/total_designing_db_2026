@@ -32,6 +32,7 @@ declare
 	v_entity_id uuid;
 	v_client_id uuid;
 	v_restaurant_id uuid;
+	v_start timestamp = date_trunc('month', current_date) - interval '5 months';
 	v_coefficient numeric;
 	v_count int;
 	v_commission numeric;
@@ -133,7 +134,7 @@ begin
 		v_client_idx = floor(random() * value)::int + 1;
 		v_restaurant_idx = floor(random() * value)::int + 1;
 		v_order_status = (enum_range(null::order_status))[floor(random() * cardinality(enum_range(null::order_status)))::int + 1];
-		v_order_time = localtimestamp - random() * interval '180 days';
+		v_order_time = v_start + random() * (localtimestamp - v_start);
 		v_delivery_time = null;
 		if v_order_status = 'доставлен' then
 			v_delivery_time = v_order_time + (20 + random() * 100) * interval '1 minute';
@@ -159,7 +160,7 @@ begin
 			insert into order_structure (order_id, product_id, quantity)
 			values (v_orders[i], v_products[v_restaurant_idx + value * (k - 1)], v_qty[k]);
 		end loop;
-		insert into payment (payment_id, order_id, payment_type, amount, transaction_id, transaction_timestamp, status)
+		insert into payment (payment_id, order_id, payment_type, amount, transaction_number, transaction_timestamp, status)
 		values (exts.uuid_generate_v4(), v_orders[i],
 			(enum_range(null::payment_type))[floor(random() * cardinality(enum_range(null::payment_type)))::int + 1],
 			(select total_amount from "order" where order_id = v_orders[i]), md5(random()::text), v_order_time, 'успех');
@@ -202,7 +203,7 @@ begin
 		v_coefficient = 0.1;
 		for m in
 			select x::date
-			from generate_series(date_trunc('month', current_date - interval '5 months'), date_trunc('month', current_date), interval '1 month') x
+			from generate_series(v_start, date_trunc('month', current_date), interval '1 month') x
 		loop
 			select count(*), coalesce(sum(commission), 0) into v_count, v_commission
 			from "order"

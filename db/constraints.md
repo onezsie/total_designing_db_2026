@@ -37,8 +37,10 @@
 ```
 payment_type          payment_type    — тип оплаты попытки (BR-8.2, BR-8.6)
 amount                numeric(10,2)   — сумма попытки (BR-8.2), равна total_amount заказа (BR-8.4)
-transaction_id        varchar(64)     — внешний идентификатор транзакции провайдера (BR-8.2, BR-8.3),
+transaction_number    varchar(64)     — внешний идентификатор транзакции провайдера (BR-8.2, BR-8.3),
                                         UNIQUE; данные карт не хранятся (BR-1.7, BR-8.5)
+                                        Имя без суффикса _id: он оставлен за UUID-ключами (BR-11.1),
+                                        а идентификатор провайдера — строка.
 transaction_timestamp timestamp       — дата и время транзакции (BR-8.2)
 status                payment_status  — статус попытки (BR-8.2)
 
@@ -137,7 +139,7 @@ PK client_address (client_id, address_id) служит целевым ключо
 | `client_address` | PK `(client_id, address_id)` | BR-2.5 | один адрес нельзя привязать к клиенту дважды |
 | `restaurant` | `address_id` | BR-3.3, BR-3.4 | у адреса не больше одного ресторана |
 | `courier_pay` | PK `(year, month, courier_id)` | BR-10.3 | одна выплата курьеру за месяц |
-| `payment` | `transaction_id` | BR-8.3 | идентификатор транзакции уникален |
+| `payment` | `transaction_number` | BR-8.3 | идентификатор транзакции уникален |
 | `payment` | `order_id` `WHERE status = 'успех'` (частичный индекс `payment_order_id_idx`) | BR-8.1 | у заказа не больше одной успешной попытки |
 | `order_structure` | PK `(order_id, product_id)` | BR-7.16 | блюдо не встречается в заказе дважды |
 | `review` | `(order_id, entity_type, entity_id)` | BR-9.5 | не больше одного отзыва на объект в рамках заказа |
@@ -179,7 +181,7 @@ PK client_address (client_id, address_id) служит целевым ключо
 | `order` | `description` | BR-11.3 | BR не разрешает заказ без описания |
 | `restaurant` | `address_id` | BR-3.3 | у ресторана ровно один адрес |
 | `restaurant` | `company_details` | BR-4.1, BR-4.5 | реквизиты — обязательный атрибут ресторана |
-| `payment` | `transaction_id` | BR-8.2, BR-8.3 | у каждой попытки есть идентификатор транзакции |
+| `payment` | `transaction_number` | BR-8.2, BR-8.3 | у каждой попытки есть идентификатор транзакции |
 
 ---
 

@@ -92,7 +92,7 @@ create table payment (
 	order_id uuid not null references "order"(order_id),
 	payment_type payment_type not null,
 	amount numeric(10, 2) not null,
-	transaction_id varchar(64) not null unique,
+	transaction_number varchar(64) not null unique,
 	transaction_timestamp timestamp not null,
 	status payment_status not null
 );
